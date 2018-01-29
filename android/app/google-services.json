@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "480311652326",
+    "firebase_url": "https://chatwithmedemo.firebaseio.com",
+    "project_id": "chatwithmedemo",
+    "storage_bucket": "chatwithmedemo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480311652326:android:15c2580ef994445a",
+        "android_client_info": {
+          "package_name": "com.chatmeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "480311652326-dmmvv8d0qm1bc0as3p4dirmi37u1sgdd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVWqlqRC-diR12dlkRuK2-hGRdcgo4G84"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
