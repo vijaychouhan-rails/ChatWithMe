@@ -1,7 +1,8 @@
 import firebase from 'firebase';
+import DeviceInfo from 'react-native-device-info'
 
 class Backend {
-  uid = '';
+  uid = DeviceInfo.getUniqueID();
   messageRef = null;
   constructor() {
     firebase.initializeApp({
@@ -11,12 +12,12 @@ class Backend {
       storageBucket: "chatwithmedemo.appspot.com",
     })
     firebase.auth().signInAnonymously().catch((error) => {
-      this.setUid(Math.random(10000)*100000000)
+      // this.setUid(Math.random(10000)*100000000)
     })
   }
 
   setUid(value) {
-    this.uid = value
+    // this.uid = value
   }
 
   getUid(value) {
