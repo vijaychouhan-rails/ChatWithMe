@@ -88,7 +88,7 @@ export default class Chat extends Component<{}> {
        }}
        user={{
          _id: Backend.getUid(),
-         name: `vijay${Backend.getUid()}`,
+         name: Backend.getName(),
        }}
      />
    )

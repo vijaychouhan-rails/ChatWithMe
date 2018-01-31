@@ -1,5 +1,8 @@
 import firebase from 'firebase';
 import DeviceInfo from 'react-native-device-info'
+import store from './src/configureStore';
+
+const currentUser = () => store.getState().getIn(['userAuth']).toJS();
 
 class Backend {
   uid = DeviceInfo.getUniqueID();
@@ -16,12 +19,17 @@ class Backend {
     })
   }
 
-  setUid(value) {
-    // this.uid = value
-  }
+  setUid() {}
 
   getUid(value) {
+    email = currentUser().email;
+    console.log("email", email);
+    this.uid = email.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0)
     return this.uid;
+  }
+
+  getName() {
+    return currentUser().name;
   }
 
   loadMessages(callback) {

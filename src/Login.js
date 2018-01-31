@@ -1,115 +1,118 @@
-/**
- * Sample React Native Chat
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
-  Platform,
-  StyleSheet,
+  Container,
+  Button,
   Text,
-  View,
-  TouchableOpacity,
-  Image,
+  Content,
+  Card,
+  CardItem,
+  Body,
+  Form,
+  Item,
+  Input,
+} from 'native-base';
+import isEmail from 'validator/lib/isEmail';
+import _ from 'lodash';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Actions } from 'react-native-router-flux';
+import {
+  Alert,
 } from 'react-native';
 
-import Backend from '../Backend';
+import { loginUser } from './actions/login';
 
-export default class Login extends Component<{}> {
-  state = {
-   messages: [],
- }
-
- constructor(props) {
-   super(props);
-   this.renderBubble = this.renderBubble.bind(this);
-   this.renderSend = this.renderSend.bind(this);
- }
-
- onSend(messages = []) {
-   this.setState(previousState => ({
-     messages: GiftedChat.append(previousState.messages, messages),
-   }))
- }
-
- renderSend(props) {
-    return (
-      <Send
-        {...props}
-      >
-        <View style={{marginRight: 50, marginBottom: 50}} style={{}}>
-            <Image source={require('./images/send.png')} style={{height: 30, width: 30, bottom: 8, marginRight: 10}}/>
-        </View>
-      </Send>
-    );
+class Login extends Component<{}> {
+  constructor(props) {
+    super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.state = {
+      email: '',
+      name: ''
+    }
   }
 
- renderBubble (props) {
-    return (
-      <Bubble
-        {...props}
-        wrapperStyle={{
-          right: {
-            backgroundColor: 'coral'
-          },
-          left: {
-            backgroundColor: randomColor()
-          }
-        }}
-      />
-    )
+  onSubmit() {
+    const {email, name} = this.state;
+    let message = null;
+    if(_.isEmpty(name) && _.isEmpty(email)) {
+      message = "Name and Email is Required"
+    } else {
+      if (_.isEmpty(name)) {
+        message = "Name is Required"
+      }
+
+      if (_.isEmpty(email)) {
+        message = "Email is Required"
+      } else {
+        if (!isEmail(email)){
+          message = "Invalid Email"
+        }
+      }
+    }
+
+    if (!_.isEmpty(message)) {
+      Alert.alert(
+        'Validation Error',
+        message,
+        [
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        { cancelable: true }
+      )
+    } else {
+      this.props.actions.loginUser(email, name).then(() => Actions.chat())
+    }
+
   }
 
- componentDidMount() {
-   Backend.loadMessages((message) => {
-     this.setState((previousState) => {
-       return {
-         messages: GiftedChat.append(previousState.messages, message),
-       }
-     })
-   })
- }
+  render() {
+     return (
+       <Container style={{backgroundColor: 'white'}}>
+         <Content>
+           <Card>
+              <CardItem>
+                <Body>
+                  <Text>
+                     You will see next screen once you will enter your email and name
+                  </Text>
+                </Body>
+              </CardItem>
+            </Card>
 
- render() {
-   return (
-     <GiftedChat
-       placeholder="Type your beautiful message"
-       isLoadingEarlier
-       loadEarlier
-       isAnimated
-       showUserAvatar
-       messages={this.state.messages}
-       renderBubble={this.renderBubble}
-       renderSend={this.renderSend}
-       onSend={(message) => {
-         Backend.sendMessage(message);
-       }}
-       user={{
-         _id: Backend.getUid(),
-         name: `vijay${Backend.getUid()}`,
-       }}
-     />
-   )
- }
+            <Form>
+              <Item>
+                <Input
+                  placeholder="Name"
+                  maxLength = {30}
+                  onChangeText={(text) => {this.setState({name: text}); }}
+                  value={this.state.name}
+                />
+              </Item>
+              <Item>
+                <Input
+                  placeholder="Email"
+                  onChangeText={(text) => {this.setState({email: text}); }}
+                  value={this.state.email}
+                />
+              </Item>
+              <Item>
+                <Button onPress={() => { this.onSubmit() }} style={{marginTop: 10}}>
+                  <Text>Submit! </Text>
+                </Button>
+              </Item>
+            </Form>
 
+          </Content>
+       </Container>
+     )
+   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+const mapDispatchToProps = dispatch => (
+  {
+    actions: bindActionCreators({ loginUser }, dispatch),
+  }
+);
+
+export default connect(null, mapDispatchToProps)(Login);

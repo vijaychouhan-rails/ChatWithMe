@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import App from './src/Chat';
+import AppNavigator from './src/AppNavigator';
 
-AppRegistry.registerComponent('ChatMeApp', () => App);
+AppRegistry.registerComponent('ChatMeApp', () => AppNavigator);
