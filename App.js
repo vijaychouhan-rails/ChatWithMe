@@ -9,9 +9,11 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableOpacity,
+  Image,
 } from 'react-native';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble, Send } from 'react-native-gifted-chat';
 import Backend from './Backend';
 
 export default class App extends Component<{}> {
@@ -19,11 +21,42 @@ export default class App extends Component<{}> {
    messages: [],
  }
 
+ constructor(props) {
+   super(props);
+   this.renderBubble = this.renderBubble.bind(this);
+   this.renderSend = this.renderSend.bind(this);
+ }
+
  onSend(messages = []) {
    this.setState(previousState => ({
      messages: GiftedChat.append(previousState.messages, messages),
    }))
  }
+
+ renderSend(props) {
+    return (
+      <Send
+        {...props}
+      >
+        <View style={{marginRight: 50, marginBottom: 50}} style={{}}>
+            <Image source={require('./src/images/send.png')} style={{height: 30, width: 30, bottom: 8, marginRight: 10}}/>
+        </View>
+      </Send>
+    );
+  }
+
+ renderBubble (props) {
+    return (
+      <Bubble
+        {...props}
+        wrapperStyle={{
+          right: {
+            backgroundColor: 'coral'
+          }
+        }}
+      />
+    )
+  }
 
  componentDidMount() {
    Backend.loadMessages((message) => {
@@ -39,6 +72,8 @@ export default class App extends Component<{}> {
    return (
      <GiftedChat
        messages={this.state.messages}
+       renderBubble={this.renderBubble}
+       renderSend={this.renderSend}
        onSend={(message) => {
          Backend.sendMessage(message);
        }}
