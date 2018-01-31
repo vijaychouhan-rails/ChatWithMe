@@ -14,6 +14,7 @@ import {
   Image,
 } from 'react-native';
 import { GiftedChat, Bubble, Send } from 'react-native-gifted-chat';
+import randomColor from 'randomcolor';
 import Backend from './Backend';
 
 export default class App extends Component<{}> {
@@ -52,6 +53,9 @@ export default class App extends Component<{}> {
         wrapperStyle={{
           right: {
             backgroundColor: 'coral'
+          },
+          left: {
+            backgroundColor: randomColor()
           }
         }}
       />
@@ -71,6 +75,11 @@ export default class App extends Component<{}> {
  render() {
    return (
      <GiftedChat
+       placeholder="Type your beautiful message"
+       isLoadingEarlier
+       loadEarlier
+       isAnimated
+       showUserAvatar
        messages={this.state.messages}
        renderBubble={this.renderBubble}
        renderSend={this.renderSend}
