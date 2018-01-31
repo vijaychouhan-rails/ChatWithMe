@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "firebase": "^4.9.0",
+    "native-base": "^2.3.7",
     "randomcolor": "^0.5.3",
     "react": "16.2.0",
     "react-native": "0.52.2",
