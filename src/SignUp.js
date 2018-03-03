@@ -10,7 +10,6 @@ import {
   Form,
   Item,
   Input,
-  Link,
 } from 'native-base';
 import isEmail from 'validator/lib/isEmail';
 import _ from 'lodash';
@@ -19,12 +18,11 @@ import { bindActionCreators } from 'redux';
 import { Actions } from 'react-native-router-flux';
 import {
   Alert,
-  TouchableOpacity,
 } from 'react-native';
 
-import { loginUser } from './actions/login';
+import { signUpUser } from './actions/login';
 
-class Login extends Component<{}> {
+class SignUp extends Component<{}> {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -38,10 +36,10 @@ class Login extends Component<{}> {
     const {email, password} = this.state;
     let message = null;
     if(_.isEmpty(password) && _.isEmpty(email)) {
-      message = "password and Email is Required"
+      message = "Password and Email is Required"
     } else {
       if (_.isEmpty(password)) {
-        message = "password is Required"
+        message = "Password is Required"
       }
 
       if (_.isEmpty(email)) {
@@ -63,7 +61,7 @@ class Login extends Component<{}> {
         { cancelable: true }
       )
     } else {
-      this.props.actions.loginUser(email, password).then((res) => {
+      this.props.actions.signUpUser(email, password).then((res) => {
         if(res.success) {
           Actions.chat()
         } else {
@@ -82,7 +80,7 @@ class Login extends Component<{}> {
               <CardItem>
                 <Body>
                   <Text>
-                     You will see next screen once you will enter your email and password
+                     Signup and get access.
                   </Text>
                 </Body>
               </CardItem>
@@ -98,20 +96,20 @@ class Login extends Component<{}> {
               </Item>
               <Item>
                 <Input
-                  placeholder="password"
-                  maxLength={30}
+                  placeholder="Password"
+                  maxLength = {30}
                   onChangeText={(text) => {this.setState({password: text}); }}
                   value={this.state.password}
                   secureTextEntry
                 />
               </Item>
-              <Item>
+              <Item last>
                 <Button onPress={() => { this.onSubmit() }} style={{marginTop: 10}}>
                   <Text>Submit! </Text>
                 </Button>
               </Item>
             </Form>
-            <TouchableOpacity onPress={() => Actions.signUp()}><Text> Don't have account click here</Text></TouchableOpacity>
+
           </Content>
        </Container>
      )
@@ -120,8 +118,8 @@ class Login extends Component<{}> {
 
 const mapDispatchToProps = dispatch => (
   {
-    actions: bindActionCreators({ loginUser }, dispatch),
+    actions: bindActionCreators({ signUpUser }, dispatch),
   }
 );
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(SignUp);

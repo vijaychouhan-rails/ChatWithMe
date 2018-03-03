@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import store from './configureStore';
 import { Router, Scene } from 'react-native-router-flux';
 import Login from './Login';
+import SignUp from './SignUp';
 import Chat from './Chat';
 
 const RouterWithRedux = connect()(Router);
@@ -22,6 +23,11 @@ const AppNavigator = () => (
           component={Login}
           title="Users"
           key="users"
+        />
+        <Scene
+          component={SignUp}
+          title="SignUp"
+          key="signUp"
         />
         <Scene
           component={Chat}

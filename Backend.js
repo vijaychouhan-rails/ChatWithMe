@@ -7,6 +7,7 @@ const currentUser = () => store.getState().getIn(['userAuth']).toJS();
 class Backend {
   uid = DeviceInfo.getUniqueID();
   messageRef = null;
+  page = 0;
   constructor() {
     firebase.initializeApp({
       apiKey: "AIzaSyBLcGjd51hl3UfMbPQxodnF28-_4vG-vpE",
@@ -14,10 +15,29 @@ class Backend {
       databaseURL: "https://chatwithmedemo.firebaseio.com",
       storageBucket: "chatwithmedemo.appspot.com",
     })
-    firebase.auth().signInAnonymously().catch((error) => {
-      // this.setUid(Math.random(10000)*100000000)
-    })
+    // firebase.auth().signInAnonymously().catch((error) => {
+    //   // this.setUid(Math.random(10000)*100000000)
+    // })
   }
+
+  getFireBase() {
+    return firebase;
+  }
+
+  // login() {
+  //   .signInWithEmailAndPassword(email, password)
+  //   .then((user) => {
+  //     // If you need to do anything with the user, do it here
+  //     // The user will be logged in automatically by the
+  //     // `onAuthStateChanged` listener we set up in App.js earlier
+  //   })
+  //   .catch((error) => {
+  //     const { code, message } = error;
+  //     // For details of error codes, see the docs
+  //     // The message contains the default Firebase string
+  //     // representation of the error
+  //   });
+  // }
 
   setUid() {}
 
@@ -33,6 +53,8 @@ class Backend {
   }
 
   loadMessages(callback) {
+    this.page = this.page + 1;
+    console.log("===========page===============", this.page)
     this.messagesRef = firebase.database().ref('messages');
     this.messagesRef.off();
     const onReceive = (data) => {
@@ -47,6 +69,7 @@ class Backend {
         }
       })
     }
+    // this.messagesRef.limitToLast(20).startAt(1).on('child_added', onReceive);
     this.messagesRef.limitToLast(20).on('child_added', onReceive);
   }
 
