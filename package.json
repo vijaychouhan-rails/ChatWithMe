@@ -10,7 +10,7 @@
     "axios": "^0.17.1",
     "firebase": "^4.9.0",
     "immutable": "^3.8.2",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.21",
     "native-base": "^2.3.7",
     "randomcolor": "^0.5.3",
     "react": "16.2.0",
